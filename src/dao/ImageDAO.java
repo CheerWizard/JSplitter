@@ -1,9 +1,9 @@
 package dao;
 
 import annotations.Dao;
-import constants.FileConstants;
 import constants.StringResources;
 import org.jetbrains.annotations.NotNull;
+import utils.loaders.PropertyLoader;
 import utils.loggers.JSplitterLogger;
 
 import javax.imageio.ImageIO;
@@ -96,7 +96,10 @@ public class ImageDAO {
     }
 
     private void createImagePieceFile(double x , double y , double step_width , double step_height , int pieceId) throws IOException {
-        file = new File(FileConstants.PIECES_DIR , pieceName + FileConstants.PIECE_OF_IMAGE + pieceId + FileConstants.PNG_FORMAT);
+        final String pieces_dir = PropertyLoader.getPropertyValue("pieces_directory");
+        final String pieces_name = PropertyLoader.getPropertyValue("pieces_name");
+        final String image_format = PropertyLoader.getPropertyValue("image_format");
+        file = new File(pieces_dir , pieceName + pieces_name + pieceId + image_format);
         pieceBufferedImage = fullBufferedImage.getSubimage((int) x,(int) y,(int) step_width,(int) step_height);
         ImageIO.write(pieceBufferedImage, "png", file);
     }

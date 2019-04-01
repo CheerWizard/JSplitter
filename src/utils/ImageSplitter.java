@@ -121,13 +121,7 @@ public final class ImageSplitter {
         int repeat = 0;
         //splitting to width end
         for (int pieceId = 0; pieceId < countOfPiecesByHeight * countOfPiecesByWidth; ) {
-            pieceId = splitWidth(0, step_height * repeat, step_width, step_height, pieceId);
-            //change repeat
-            repeat++;
-        }
-        //splitting to height end
-        for (int pieceId = 0; pieceId < countOfPiecesByHeight * countOfPiecesByWidth; ) {
-            pieceId = splitHeight(step_width*repeat , 0, step_width , step_height , pieceId);
+            pieceId = splitWidth(0 , step_height * repeat, step_width, step_height, pieceId);
             //change repeat
             repeat++;
         }
@@ -135,7 +129,7 @@ public final class ImageSplitter {
 
     private int splitWidth(double x , double y , final double step_width , final double step_height , int pieceId) throws IOException {
         /**Attention! As we can have the probability that step will not be accurate , I have changed x to x + 1 here!*/
-        while (x + 1 < absolute_width) {
+        while (x != absolute_width) {
             createPiece(x, y, step_width, step_height, pieceId);
             pieceId++;
             x = x + step_width;
@@ -146,11 +140,11 @@ public final class ImageSplitter {
 
     private int splitHeight(double x, double y , final double step_width , final double step_height , int pieceId) throws IOException {
         /**Attention! As we can have the probability that step will not be accurate , I have changed y to y + 1 here*/
-        while (y + 1 < absolute_height) {
+        while (y != absolute_height) {
             createPiece(x, y, step_width, step_height, pieceId);
             pieceId++;
             y = y + step_height;
-            JSplitterLogger.info(class_name , "x : " + x);
+            JSplitterLogger.info(class_name , "y : " + y);
         }
         return pieceId;
     }
